@@ -126,15 +126,20 @@ end
 # p [1, 2, 4,2,4,5,6,2, 2].my_count{ |x| x%2==0 } 
 
 
-def my_map
+def my_map(proc=nil)
   arr = []
   if block_given?
     self.to_a.my_each { |el| arr << yield(el)}
+  elsif proc
+    self.to_a.my_each { |el| arr << proc.call(el) }
   end
+  arr
 end
 
 # p (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
 # p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
+test_proc = Proc.new {|x| x**2 }
+p [2, 3, 4].my_map(test_proc)
 
 def my_inject(param1=nil, param2=nil)
   if param1 && !param2 && !block_given?
