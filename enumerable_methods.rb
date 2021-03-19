@@ -29,8 +29,8 @@ module Enumerable
   # p [1,2,3,4,5].my_select { |num|  num % 2 == 0 }
   # p [:foo, :bar].my_select { |x| x == :foo }
 
+  # rubocop:Style/Cese
   def my_all?(param = nil, &block)
-
     return true if length.zero? # return true if empty array given
 
     if param
@@ -42,7 +42,7 @@ module Enumerable
       end
     end
     return my_select(&block).length == to_a.length if block_given?
-    
+
     if !param && !block_given?
       class_type = self[0].class
       my_select { |el| el.instance_of?(class_type) }.length == to_a.length
@@ -53,15 +53,12 @@ module Enumerable
   # p %w[ant bear cat].all? { |word| word.length >= 3 }
   # p [nil, true, 99].all?
 
+  # rubocop:Style/Cese
   def my_any?(param = nil)
     if param # If there is parameter given
       case param
       when Regexp # check if Regex class passed as 'parameter'
-        my_each do |el|
-          if el =~ param # if at least one regex is matched
-            return true # return true
-          end
-        end
+        my_each { |el| return true if el =~ param } # if at least one regex is matched return true
       when Class
         my_each do |el|
           if el.is_a?(param) # if at least one element class is matched with Class given via param
@@ -71,22 +68,18 @@ module Enumerable
       end
       return false # if my_each ends without finding given class in any el return false
     end
-
     if block_given?
       my_each do |el|
         return true if yield(el)
       end
       return false
     end
-
-    if !param && !block_given?
-      my_each { |el| return true if !el.nil? || el != false }
-    end
+    my_each { |el| return true if !el.nil? || el != false } if !param && !block_given?
   end
-  # p %w[ant bear cat].my_any?(/d/)
+  # p %w[ant bedar cat].my_any?(/d/)
   # p [nil, true, 99].my_any?(Integer)
   # p %w[ant bear cat].my_any? { |word| word.length >= 4 }
-  # p [nil, true, false].any?
+  p [nil, true, false].any?
 
   def my_none?(param = nil)
     return true if length.zero?
@@ -125,7 +118,7 @@ module Enumerable
   # p (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
   # p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
   test_proc = proc { |x| x**2 }
-  p [2, 3, 4].my_map(test_proc)
+  # p [2, 3, 4].my_map(test_proc)
 
   def my_inject(param1 = nil, param2 = nil)
     if param1 && !param2 && !block_given?
