@@ -137,8 +137,8 @@ end
 # p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
 
 def my_inject(param1=nil, param2=nil)
-  if param1 && !block_given?
-    if param1.is_a?(Symbol) || param1.is_a?(String) 
+  if param1 && !param2 && !block_given?
+    if param1.is_a?(Symbol) || param1.is_a?(String)
       self_arr = self.to_a
       memo = self_arr[0]
       case param1
@@ -155,11 +155,27 @@ def my_inject(param1=nil, param2=nil)
       end
       memo
     end
+  elsif param1 && param2 && !block_given?
+    self_arr = self.to_a
+    memo = param1
+    case param2
+    when :+, '+'
+      self_arr.my_each{ |el| memo += el }
+    when :*, '*'
+      self_arr.my_each{ |el| memo *= el }
+    when :-, '-'
+      self_arr.my_each{ |el| memo -= el }
+    when :/, '/'
+      self_arr.my_each{ |el| memo /= el }
+    when :**, '**'
+      self_arr.my_each{ |el| memo **= el }
+    end
+    memo
   end
-
 end
 
 # p (5..10).my_inject(:**)
-# p (5..10).my_inject('**')
+p (5..10).my_inject('+')
+p (5..10).my_inject(1, :+)
 
 end
