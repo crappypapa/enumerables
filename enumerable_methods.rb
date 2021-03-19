@@ -41,9 +41,20 @@ def my_all?(param=nil)
       return self.my_select { |el| el.is_a?(param) }.length == self.to_a.length
     end
   end
+
+  if block_given?
+    return self.my_select { |el| yield(el) }.length == self.to_a.length
+  end
+
+  if !param && !block_given?
+    class_type = self[0].class
+    return self.my_select { |el| el.class == class_type }.length == self.to_a.length
+  end
 end
 # p %w[ant bear cat].my_all?(/t/)
-p [1, 2i, 3.14].my_all?(Numeric)
+# p [1, 2i, 3.14].my_all?(Numeric)
+# p %w[ant bear cat].all? { |word| word.length >= 3 }
+# p [nil, true, 99].all?
 
 
 end
