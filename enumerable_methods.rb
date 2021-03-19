@@ -172,10 +172,27 @@ def my_inject(param1=nil, param2=nil)
     end
     memo
   end
+  if block_given? && param1
+    self_arr = self.to_a
+    self_arr.my_each do |el|
+      memo = memo.nil? ? yield(param1, el) : yield(memo, el) 
+    end
+    memo
+  elsif block_given? && !param1
+    self_arr=self.to_a
+    memo = param1
+    self_arr.my_each {|el| memo = memo.nil? ? el : yield(memo, el)}
+  end
+  memo
 end
 
 # p (5..10).my_inject(:**)
-p (5..10).my_inject('+')
-p (5..10).my_inject(1, :+)
+# p (5..10).my_inject('+')
+# p (5..10).my_inject(1, :+)
+# p (5..10).my_inject{ |product, n| product + n }
 
 end
+def multiply_els(arr)
+  return arr.my_inject(:*)
+end
+# multiply_els([2,4,5])
