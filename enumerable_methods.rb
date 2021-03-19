@@ -92,6 +92,26 @@ end
 # p %w[ant bear cat].my_any?(/d/)
 # p [nil, true, 99].my_any?(Integer)
 # p %w[ant bear cat].my_any? { |word| word.length >= 4 }
-p [nil, true, false].any?
+#p [nil, true, false].any?
+
+def my_none? (param=nil)
+  if self.length == 0 
+    return true
+  end
+  if param
+    if param.is_a?(Regexp)
+      self.my_select { |item| !(item =~ param) }.length == self.to_a.length
+    elsif param.is_a?(Class)
+        self.my_select { |item| !item.is_a? param }.length == self.to_a.length
+    end
+  end
+  if block_given?
+    return self.my_select { |item| !yield(item) }.length == self.to_a.length
+  end
+  if !param && !block_given?
+    return self.my_select { |item| !item }.length == self.to_a.length
+  end
+end
+
 
 end
