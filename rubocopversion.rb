@@ -30,7 +30,6 @@ module Enumerable
   # p [:foo, :bar].my_select { |x| x == :foo }
 
   def my_all?(param = nil, &block)
-
     return true if length.zero? # return true if empty array given
 
     if param
@@ -41,8 +40,9 @@ module Enumerable
         return my_select { |el| el.is_a?(param) }.length == to_a.length
       end
     end
+
     return my_select(&block).length == to_a.length if block_given?
-    
+
     if !param && !block_given?
       class_type = self[0].class
       my_select { |el| el.instance_of?(class_type) }.length == to_a.length
