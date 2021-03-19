@@ -136,4 +136,30 @@ end
 # p (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
 # p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
 
+def my_inject(param1=nil, param2=nil)
+  if param1 && !block_given?
+    if param1.is_a?(Symbol) || param1.is_a?(String) 
+      self_arr = self.to_a
+      memo = self_arr[0]
+      case param1
+      when :+, '+'
+        self_arr[1..-1].my_each{ |el| memo += el }
+      when :*, '*'
+        self_arr[1..-1].my_each{ |el| memo *= el }
+      when :-, '-'
+        self_arr[1..-1].my_each{ |el| memo -= el }
+      when :/, '/'
+        self_arr[1..-1].my_each{ |el| memo /= el }
+      when :**, '**'
+        self_arr[1..-1].my_each{ |el| memo **= el }
+      end
+      memo
+    end
+  end
+
+end
+
+# p (5..10).my_inject(:**)
+# p (5..10).my_inject('**')
+
 end
