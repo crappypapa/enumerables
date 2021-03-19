@@ -7,7 +7,6 @@ module Enumerable
     end
     self
   end
-  # [1,3,5,7].my_each{|number| p number}
 
   def my_each_with_index
     index = 0
@@ -17,7 +16,6 @@ module Enumerable
     end
     self
   end
-  # ["a","b","c","d"].my_each_with_index{|item,index| p "#{item} ,#{index}"}
 
   def my_select
     arr = []
@@ -26,10 +24,8 @@ module Enumerable
     end
     arr
   end
-  # p [1,2,3,4,5].my_select { |num|  num % 2 == 0 }
-  # p [:foo, :bar].my_select { |x| x == :foo }
 
-  # rubocop:Style/Cese
+  # rubocop:Style/Case
   def my_all?(param = nil, &block)
     return true if length.zero? # return true if empty array given
 
@@ -43,17 +39,15 @@ module Enumerable
     end
     return my_select(&block).length == to_a.length if block_given?
 
+    # rubocop:disable Style/GuardClause
     if !param && !block_given?
       class_type = self[0].class
       my_select { |el| el.instance_of?(class_type) }.length == to_a.length
     end
   end
-  # p %w[ant bear cat].my_all?(/t/)
-  # p [1, 2i, 3.14].my_all?(Numeric)
-  # p %w[ant bear cat].all? { |word| word.length >= 3 }
-  # p [nil, true, 99].all?
+  # rubocop:enable Style/GuardClause
 
-  # rubocop:Style/Cese
+  # rubocop:Style/Case
   def my_any?(param = nil)
     if param # If there is parameter given
       case param
@@ -76,10 +70,6 @@ module Enumerable
     end
     my_each { |el| return true if !el.nil? || el != false } if !param && !block_given?
   end
-  # p %w[ant bedar cat].my_any?(/d/)
-  # p [nil, true, 99].my_any?(Integer)
-  # p %w[ant bear cat].my_any? { |word| word.length >= 4 }
-  p [nil, true, false].any?
 
   def my_none?(param = nil)
     return true if length.zero?
@@ -102,8 +92,6 @@ module Enumerable
 
     my_select(&block).length if block_given?
   end
-  # p [1, 2, 4,2,4,5,6,2, 2].my_count(2)
-  # p [1, 2, 4,2,4,5,6,2, 2].my_count{ |x| x%2==0 }
 
   def my_map(proc = nil)
     arr = []
@@ -115,11 +103,7 @@ module Enumerable
     arr
   end
 
-  # p (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
-  # p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
-  test_proc = proc { |x| x**2 }
-  # p [2, 3, 4].my_map(test_proc)
-
+  # rubocop:Style/Case
   def my_inject(param1 = nil, param2 = nil)
     if param1 && !param2 && !block_given?
       if param1.is_a?(Symbol) || param1.is_a?(String)
@@ -169,14 +153,8 @@ module Enumerable
     end
     memo
   end
-
-  # p (5..10).my_inject(:**)
-  # p (5..10).my_inject('+')
-  # p (5..10).my_inject(1, :+)
-  # p (5..10).my_inject{ |product, n| product + n }
 end
 
 def multiply_els(arr)
   arr.my_inject(:*)
 end
-# multiply_els([2,4,5])
