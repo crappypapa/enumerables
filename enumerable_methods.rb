@@ -17,11 +17,18 @@ def my_each_with_index
   end
   self
 end
-  ["a","b","c","d"].my_each_with_index{|item,index| p "#{item} ,#{index}"}
-
-
-
-
+#["a","b","c","d"].my_each_with_index{|item,index| p "#{item} ,#{index}"}
+def my_select
+  arr=[]
+  self.my_each do |item|
+    if yield(item)
+      arr << item
+    end
+  end
+  arr
+end
+# p [1,2,3,4,5].my_select { |num|  num % 2 == 0 }
+p [:foo, :bar].my_select { |x| x == :foo } 
 
 
 
