@@ -114,4 +114,14 @@ def my_none? (param=nil)
 end
 
 
+def my_count(param=nil)
+  if param
+    return self.my_select { |item| item == param}.length
+  end
+  if block_given?
+    return self.my_select {|item| yield(item)}.length
+  end
+end
+#p [1, 2, 4,2,4,5,6,2, 2].my_count(2)
+p [1, 2, 4,2,4,5,6,2, 2].my_count{ |x| x%2==0 } 
 end
