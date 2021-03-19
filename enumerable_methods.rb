@@ -123,5 +123,17 @@ def my_count(param=nil)
   end
 end
 #p [1, 2, 4,2,4,5,6,2, 2].my_count(2)
-p [1, 2, 4,2,4,5,6,2, 2].my_count{ |x| x%2==0 } 
+# p [1, 2, 4,2,4,5,6,2, 2].my_count{ |x| x%2==0 } 
+
+
+def my_map
+  arr = []
+  if block_given?
+    self.to_a.my_each { |el| arr << yield(el)}
+  end
+end
+
+# p (1..4).map { |i| i*i }      #=> [1, 4, 9, 16]
+# p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
+
 end
