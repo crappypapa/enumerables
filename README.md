@@ -40,11 +40,17 @@ To get a local copy up and running follow these simple example steps.
 
 ```["a","b","c","d"].my_each_with_index{|item,index| p "#{item} ,#{index}"} #=> ([a,0] [b,1] [c,2] [d,3]```
 
+```{first: 'sasd', second: 'ads'}.my_each_with_index {|hash, index| p "hash: #{hash} index: #{index}"}  #=> "hash: [:first, \"sasd\"] index: 0" "hash: [:second, \"ads\"] index: 1" ```
+
+```(1..3).my_each_with_index {|el, index| p index } #=> 1 , 2, 3```
+
 ### my_select
 
 ```p [1,2,3,4,5].my_select { |num|  num % 2 == 0 } #=> [2,4]```
 
 ```p [:foo, :bar].my_select { |x| x == :foo } #=> [:foo]```
+
+```p (1..5).my_select { |num|  num % 2 == 0 }```
 
 ### my_all?
 

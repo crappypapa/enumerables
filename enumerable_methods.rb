@@ -45,19 +45,17 @@ module Enumerable
     end
     self
   end
-
-  # p ['a', 'b'].my_each_with_index
-# p (1..3).my_each_with_index {|el, index| p index }
-  {first: 'sasd', second: 'ads'}.my_each_with_index {|hash, index| p "hash: #{hash} index: #{index}"}
-
-
+  
   def my_select
     arr = []
+    return to_enum(:my_select) unless block_given?
     my_each do |item|
       arr << item if yield(item)
     end
     arr
   end
+
+ 
 
   # rubocop:Style/Case
   def my_all?(param = nil, &block)
