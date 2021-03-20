@@ -127,8 +127,6 @@ module Enumerable
     my_select(&:!).length == to_a.length if !param && !block_given?
   end
 
-
-
   def my_count(param = nil, &block)
     return my_select { |item| item == param }.length if param
 
