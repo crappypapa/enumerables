@@ -1,12 +1,30 @@
 module Enumerable
   def my_each
+    return self.to_a.to_enum unless block_given?  # return enum obj if no block given
+    self_arr = self.to_a
     index = 0
-    while index < length
-      yield(self[index])
+
+    if self.is_a?(Hash)
+     keys = self.keys
+     values = self.values
+
+     while index < keys.length
+      yield(keys[index], values[index])
+      index += 1
+    end
+
+    end
+
+    while index < self_arr.length
+      yield(self_arr[index])
       index += 1
     end
     self
   end
+
+  # p ['a', 'b'].my_each
+    # p (1..5).each.my_each{ |item| p item}
+    {first: 1, second: 2}.my_each {|key, value| p value}
 
   def my_each_with_index
     index = 0
