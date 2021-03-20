@@ -23,13 +23,6 @@ module Enumerable
     self
   end
 
-  # p ['a', 'b'].my_each
-  # p (1..5).each.my_each{ |item| p item}
-  # puts "each:"
-  # {first: 1, second: 2}.each {|key, value| p "#{key} - #{value}" }
-  # puts "my_each:"
-  # {first: 1, second: 2}.my_each {|key, value| p "#{key} - #{value}"}
-
   def my_each_with_index
     self_arr = to_a
     return to_enum(:my_each_with_index) unless block_given? # return enum obj if no block given
@@ -134,9 +127,7 @@ module Enumerable
     my_select(&:!).length == to_a.length if !param && !block_given?
   end
 
-  # p (1..3).my_none? { |el| el < 1}
-  # p ['a', 'c'].my_none?(/a/)
-  # p ['a', 'c'].my_none?('d')
+
 
   def my_count(param = nil, &block)
     return my_select { |item| item == param }.length if param
@@ -145,9 +136,6 @@ module Enumerable
 
     my_select { |item| item }.length
   end
-
-  # p [1, 2, 2].my_count
-  # p (1..3).my_count {|el| el.odd?}
 
   def my_map(proc = nil)
     return to_enum unless block_given? # return enum obj if no block given
@@ -212,9 +200,6 @@ module Enumerable
     end
     memo
   end
-
-  # p [12, 2, 3].my_inject
-  p [12, 2, 3].inject
 end
 
 def multiply_els(arr)
