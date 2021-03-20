@@ -1,17 +1,18 @@
 module Enumerable
   def my_each
-    return self.to_a.to_enum(:my_each) unless block_given?  # return enum obj if no block given
-    self_arr = self.to_a
+    return to_a.to_enum(:my_each) unless block_given? # return enum obj if no block given
+
+    self_arr = to_a
     index = 0
 
-    if self.is_a?(Hash)
-     keys = self.keys
-     values = self.values
+    if is_a?(Hash)
+      keys = self.keys
+      values = self.values
 
-     while index < keys.length
-      yield(keys[index], values[index])
-      index += 1
-    end
+      while index < keys.length
+        yield(keys[index], values[index])
+        index += 1
+      end
 
     end
 
@@ -23,12 +24,13 @@ module Enumerable
   end
 
   # p ['a', 'b'].my_each
-    # p (1..5).each.my_each{ |item| p item}
-    # {first: 1, second: 2}.my_each {|key, value| p value}
+  # p (1..5).each.my_each{ |item| p item}
+  # {first: 1, second: 2}.my_each {|key, value| p value}
 
   def my_each_with_index
-    self_arr = self.to_a
-    return to_enum(:my_each_with_index) unless block_given?  # return enum obj if no block given
+    self_arr = to_a
+    return to_enum(:my_each_with_index) unless block_given? # return enum obj if no block given
+
     index = 0
 
     # if self.is_a?(Hash)
@@ -49,6 +51,7 @@ module Enumerable
   def my_select
     arr = []
     return to_enum(:my_select) unless block_given?
+
     my_each do |item|
       arr << item if yield(item)
     end
@@ -57,8 +60,9 @@ module Enumerable
 
   # rubocop:Style/Case
   def my_all?(param = nil, &block)\
-    self_arr = self.to_a
+    self_arr = to_a
     return true if self_arr.length.zero? # return true if empty array given
+
     if param
       case param
       when Regexp
@@ -66,7 +70,7 @@ module Enumerable
       when Class
         return my_select { |el| el.is_a?(param) }.length == self_arr.length
       else
-        self_arr.my_each{|el| return false if el != param}
+        self_arr.my_each { |el| return false if el != param }
         return true
       end
     end
@@ -74,10 +78,9 @@ module Enumerable
 
     # rubocop:disable Style/GuardClause
     if !param && !block_given?
-      my_each { |el| return false if el == nil || el == false }
+      my_each { |el| return false if [nil, false].include?(el) }
       true
     end
-    
   end
 
   # p [1,1,1].my_all?()
@@ -85,7 +88,7 @@ module Enumerable
 
   # rubocop:Style/Case
   def my_any?(param = nil)
-    self_arr = self.to_a  # convert self to array so method could work with ranges too
+    self_arr = to_a # convert self to array so method could work with ranges too
 
     if param # If there is parameter given
       case param
@@ -98,7 +101,7 @@ module Enumerable
           end
         end
       else
-        self_arr.my_each{|el| return true if el == param}
+        self_arr.my_each { |el| return true if el == param }
         return false
       end
       return false # if my_each ends without finding given class in any el return false
@@ -109,13 +112,12 @@ module Enumerable
       end
       return false
     end
-    
-    if !param && !block_given?  # if no param nor block given check if at least on element is not nil nor false
-      self_arr.my_each { |el| return true if el }  # if non of elements is true than its false
-      return false
+    # rubocop:disable Style/GuardClause
+    if !param && !block_given? # if no param nor block given check if at least on element is not nil nor false
+      self_arr.my_each { |el| return true if el } # if non of elements is true than its false
+      false
     end
-
-    
+    # rubocop:enable Style/GuardClause
   end
 
   # p (1..3).my_any?{ |i| i > 2 }
@@ -123,7 +125,7 @@ module Enumerable
   # p ['man', 'man', 'man'].my_any?('d')
 
   def my_none?(param = nil)
-    self_arr = self.to_a
+    self_arr = to_a
     return true if self_arr.length.zero?
 
     if param
@@ -134,7 +136,7 @@ module Enumerable
       when Class
         return my_select { |item| !item.is_a? param }.length == to_a.length
       else
-        self_arr.my_each{|el| return false if el == param}
+        self_arr.my_each { |el| return false if el == param }
         return true
       end
     end
@@ -152,14 +154,15 @@ module Enumerable
 
     my_select(&block).length if block_given?
 
-    return my_select { |item| item }.length
+    my_select { |item| item }.length
   end
 
   # p [1, 2, 2].my_count
   # p (1..3).my_count
 
   def my_map(proc = nil)
-    return to_enum(:my_map) unless block_given?  # return enum obj if no block given
+    return to_enum unless block_given? # return enum obj if no block given
+
     arr = []
     if block_given? && !proc
       to_a.my_each { |el| arr << yield(el) }
@@ -170,13 +173,12 @@ module Enumerable
   end
 
   # p (1..3).my_map
-  test_proc = Proc.new {|x| x**2 }
+  # test_proc = proc { |x| x**2 }
   # p [2, 3, 4].my_map(test_proc){ |i| i*1 }
 
   # rubocop:Style/Case
   def my_inject(param1 = nil, param2 = nil)
-
-    raise "LocalJumpError" unless block_given? || param1 || param2
+    raise 'LocalJumpError' unless block_given? || param1 || param2
 
     if param1 && !param2 && !block_given?
       if param1.is_a?(Symbol) || param1.is_a?(String)
@@ -227,7 +229,7 @@ module Enumerable
     memo
   end
 
-  p [12, 2, 3].my_inject
+  # p [12, 2, 3].my_inject
 end
 
 def multiply_els(arr)
