@@ -25,7 +25,10 @@ module Enumerable
 
   # p ['a', 'b'].my_each
   # p (1..5).each.my_each{ |item| p item}
-  # {first: 1, second: 2}.my_each {|key, value| p value}
+  # puts "each:"
+  # {first: 1, second: 2}.each {|key, value| p "#{key} - #{value}" }
+  # puts "my_each:"
+  # {first: 1, second: 2}.my_each {|key, value| p "#{key} - #{value}"}
 
   def my_each_with_index
     self_arr = to_a
@@ -138,13 +141,13 @@ module Enumerable
   def my_count(param = nil, &block)
     return my_select { |item| item == param }.length if param
 
-    my_select(&block).length if block_given?
+    return my_select(&block).length if block_given?
 
     my_select { |item| item }.length
   end
 
   # p [1, 2, 2].my_count
-  # p (1..3).my_count
+  # p (1..3).my_count {|el| el.odd?}
 
   def my_map(proc = nil)
     return to_enum unless block_given? # return enum obj if no block given
@@ -158,9 +161,8 @@ module Enumerable
     arr
   end
 
-  # rubocop:Style/Case
   def my_inject(param1 = nil, param2 = nil)
-    raise 'LocalJumpError' unless block_given? || param1 || param2
+    raise 'LocalJumpError' unless block_given? && param1 && param2
 
     if param1 && !param2 && !block_given?
       if param1.is_a?(Symbol) || param1.is_a?(String)
@@ -212,6 +214,7 @@ module Enumerable
   end
 
   # p [12, 2, 3].my_inject
+  p [12, 2, 3].inject
 end
 
 def multiply_els(arr)
