@@ -62,6 +62,8 @@ To get a local copy up and running follow these simple example steps.
 
 ```p [nil, true, 99].all? #=> false```
 
+```p [1,1,1].my_all?() #=> true```
+
 ### my_any?
 
 ```p %w[ant bear cat].my_any?(/d/) #=> false```
@@ -71,6 +73,10 @@ To get a local copy up and running follow these simple example steps.
 ```p %w[ant bear cat].my_any? { |word| word.length >= 4 } #=> true```
 
 ```p [nil, true, false].any? #=> true```
+
+```p (1..3).my_any?{ |i| i > 2 }  #=>true```
+
+```p ['man', 'man', 'man'].my_any?('d')  #=>  false```
 
 ### my_count?
 
@@ -83,6 +89,9 @@ To get a local copy up and running follow these simple example steps.
 ```p (1..4).map { |i| i*i }  #=> [1, 4, 9, 16]```
 
 ```p (1..4).collect { "cat"  }   #=> ["cat", "cat", "cat","cat"]```
+
+```test_proc = proc { |x| x**2 } ```   
+```p [2, 3, 4].my_map(test_proc){ |i| i*1 } #=> [4, 9, 16]```
 
 ### my_inject
 

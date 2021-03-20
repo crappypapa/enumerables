@@ -32,15 +32,6 @@ module Enumerable
     return to_enum(:my_each_with_index) unless block_given? # return enum obj if no block given
 
     index = 0
-
-    # if self.is_a?(Hash)
-    #   self_arr.my_each do |item|
-    #     yield(item[0], item[1], index)
-    #     index += 1
-    #   end
-    #   return self
-    # end
-
     self_arr.my_each do |item|
       yield(item, index)
       index += 1
@@ -83,7 +74,6 @@ module Enumerable
     end
   end
 
-  # p [1,1,1].my_all?()
   # rubocop:enable Style/GuardClause
 
   # rubocop:Style/Case
@@ -119,10 +109,6 @@ module Enumerable
     end
     # rubocop:enable Style/GuardClause
   end
-
-  # p (1..3).my_any?{ |i| i > 2 }
-  # p [nil, nil, nil].my_any?
-  # p ['man', 'man', 'man'].my_any?('d')
 
   def my_none?(param = nil)
     self_arr = to_a
@@ -172,9 +158,7 @@ module Enumerable
     arr
   end
 
-  # p (1..3).my_map
-  # test_proc = proc { |x| x**2 }
-  # p [2, 3, 4].my_map(test_proc){ |i| i*1 }
+  p (1..3).my_map
 
   # rubocop:Style/Case
   def my_inject(param1 = nil, param2 = nil)
