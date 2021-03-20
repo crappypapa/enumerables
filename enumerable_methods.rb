@@ -1,6 +1,6 @@
 module Enumerable
   def my_each
-    return self.to_a.to_enum unless block_given?  # return enum obj if no block given
+    return self.to_a.to_enum(:my_each) unless block_given?  # return enum obj if no block given
     self_arr = self.to_a
     index = 0
 
@@ -24,16 +24,32 @@ module Enumerable
 
   # p ['a', 'b'].my_each
     # p (1..5).each.my_each{ |item| p item}
-    {first: 1, second: 2}.my_each {|key, value| p value}
+    # {first: 1, second: 2}.my_each {|key, value| p value}
 
   def my_each_with_index
+    self_arr = self.to_a
+    return to_enum(:my_each_with_index) unless block_given?  # return enum obj if no block given
     index = 0
-    my_each do |item|
+
+    # if self.is_a?(Hash)
+    #   self_arr.my_each do |item|
+    #     yield(item[0], item[1], index)
+    #     index += 1
+    #   end
+    #   return self
+    # end
+
+    self_arr.my_each do |item|
       yield(item, index)
       index += 1
     end
     self
   end
+
+  # p ['a', 'b'].my_each_with_index
+# p (1..3).my_each_with_index {|el, index| p index }
+  {first: 'sasd', second: 'ads'}.my_each_with_index {|hash, index| p "hash: #{hash} index: #{index}"}
+
 
   def my_select
     arr = []
