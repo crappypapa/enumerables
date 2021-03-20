@@ -45,7 +45,7 @@ module Enumerable
     end
     self
   end
-  
+
   def my_select
     arr = []
     return to_enum(:my_select) unless block_given?
@@ -55,28 +55,32 @@ module Enumerable
     arr
   end
 
- 
-
   # rubocop:Style/Case
-  def my_all?(param = nil, &block)
-    return true if length.zero? # return true if empty array given
-
+  def my_all?(param = nil, &block)\
+    self_arr = self.to_a
+    return true if self_arr.length.zero? # return true if empty array given
     if param
       case param
       when Regexp
-        return my_select { |el| el =~ param }.length == to_a.length
+        return my_select { |el| el =~ param }.length == self_arr.length
       when Class
-        return my_select { |el| el.is_a?(param) }.length == to_a.length
+        return my_select { |el| el.is_a?(param) }.length == self_arr.length
+      else
+        self_arr.my_each{|el| return false if el != param}
+        return true
       end
     end
-    return my_select(&block).length == to_a.length if block_given?
+    return my_select(&block).length == self_arr.length if block_given?
 
     # rubocop:disable Style/GuardClause
     if !param && !block_given?
-      class_type = self[0].class
-      my_select { |el| el.instance_of?(class_type) }.length == to_a.length
+      my_each { |el| return false if el == nil || el == false }
+      true
     end
+    
   end
+
+  p [1,1,1].my_all?()
   # rubocop:enable Style/GuardClause
 
   # rubocop:Style/Case
