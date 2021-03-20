@@ -158,8 +158,6 @@ module Enumerable
     arr
   end
 
-  p (1..3).my_map
-
   # rubocop:Style/Case
   def my_inject(param1 = nil, param2 = nil)
     raise 'LocalJumpError' unless block_given? || param1 || param2
