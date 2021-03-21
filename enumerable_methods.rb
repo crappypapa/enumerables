@@ -1,16 +1,14 @@
 module Enumerable
   def my_each
-    return to_a.to_enum(:my_each) unless block_given? # return enum obj if no block given
+    return to_a.to_enum(:my_each) unless block_given?
 
     self_arr = to_a
     index = 0
 
     if is_a?(Hash)
-      keys = self.keys
-      values = self.values
 
       while index < keys.length
-        yield(keys[index], values[index])
+        yield(self_arr[index])
         index += 1
       end
 
@@ -25,7 +23,7 @@ module Enumerable
 
   def my_each_with_index
     self_arr = to_a
-    return to_enum(:my_each_with_index) unless block_given? # return enum obj if no block given
+    return to_enum(:my_each_with_index) unless block_given?
 
     index = 0
     self_arr.my_each do |item|
@@ -45,10 +43,9 @@ module Enumerable
     arr
   end
 
-  # rubocop:Style/Case
   def my_all?(param = nil, &block)\
     self_arr = to_a
-    return true if self_arr.length.zero? # return true if empty array given
+    return true if self_arr.length.zero?
 
     if param
       case param
@@ -63,22 +60,18 @@ module Enumerable
     end
     return my_select(&block).length == self_arr.length if block_given?
 
-    # rubocop:disable Style/GuardClause
     if !param && !block_given?
       my_each { |el| return false if [nil, false].include?(el) }
       true
     end
   end
 
-  # rubocop:enable Style/GuardClause
-
-  # rubocop:Style/Case
   def my_any?(param = nil)
-    self_arr = to_a # convert self to array so method could work with ranges too
+    self_arr = to_a 
 
-    if param # If there is parameter given
+    if param 
       case param
-      when Regexp # check if Regex class passed as 'parameter'
+      when Regexp
         my_each { |el| return true if el =~ param } # if at least one regex is matched return true
       when Class
         my_each do |el|
@@ -148,7 +141,7 @@ module Enumerable
   end
 
   def my_inject(param1 = nil, param2 = nil)
-    raise 'LocalJumpError' unless block_given? && param1 && param2
+    raise 'LocalJumpError' unless block_given? || param1 || param2
 
     if param1 && !param2 && !block_given?
       if param1.is_a?(Symbol) || param1.is_a?(String)
@@ -191,6 +184,8 @@ module Enumerable
         memo = memo.nil? ? yield(param1, el) : yield(memo, el)
       end
       memo
+    elsif !block_given? && param1.is_a?(Proc)
+      p 'yeah'
     elsif block_given? && !param1
       self_arr = to_a
       memo = param1
@@ -198,8 +193,12 @@ module Enumerable
     end
     memo
   end
+
 end
 
 def multiply_els(arr)
   arr.my_inject(:*)
 end
+
+arr = [1, 9, 2]
+p multiply_els(arr)
