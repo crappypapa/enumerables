@@ -143,7 +143,7 @@ module Enumerable
   end
 
   def my_inject(param1 = nil, param2 = nil)
-    raise 'LocalJumpError' unless block_given? || param1 || param2
+    raise LocalJumpError unless block_given? || param1 || param2
 
     if param1 && !param2 && !block_given?
       if param1.is_a?(Symbol) || param1.is_a?(String)
@@ -196,6 +196,7 @@ module Enumerable
     memo
   end
 end
+
 
 def multiply_els(arr)
   arr.my_inject(:*)
