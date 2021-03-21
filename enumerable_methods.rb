@@ -60,16 +60,18 @@ module Enumerable
     end
     return my_select(&block).length == self_arr.length if block_given?
 
+    # rubocop:disable Style/GuardClause
     if !param && !block_given?
       my_each { |el| return false if [nil, false].include?(el) }
       true
     end
+    # rubocop:enable Style/GuardClause
   end
 
   def my_any?(param = nil)
-    self_arr = to_a 
+    self_arr = to_a
 
-    if param 
+    if param
       case param
       when Regexp
         my_each { |el| return true if el =~ param } # if at least one regex is matched return true
@@ -193,7 +195,6 @@ module Enumerable
     end
     memo
   end
-
 end
 
 def multiply_els(arr)
