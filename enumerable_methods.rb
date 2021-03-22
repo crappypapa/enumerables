@@ -1,3 +1,6 @@
+# rubocop: disable Metrics/ModuleLength, Metrics/MethodLength, Metrics/AbcSize
+# rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+
 module Enumerable
   def my_each
     return to_a.to_enum(:my_each) unless block_given?
@@ -203,3 +206,6 @@ end
 
 arr = [1, 9, 2]
 p multiply_els(arr)
+
+# rubocop: enable Metrics/ModuleLength, Metrics/MethodLength, Metrics/AbcSize
+# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
