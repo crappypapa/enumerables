@@ -123,6 +123,52 @@ describe Enumerable do
     end
   end
 
+  describe '#my_none?' do
+    it 'Returns true if self is empty' do
+      expect([].my_none?).to be(true)
+    end
+
+    it 'Returns false if self is not empty' do
+      expect([1, 2].my_none?).to be(false)
+    end
+
+    it 'returns true if none of numbers is lesser than 10 in the given array' do
+      expect([11, 12, 14].my_none? { |el| el < 10 }).to_not be(false)
+    end
+
+    it 'returns true if none of numbers is greater than 20 in the given array' do
+      expect([11, 12, 14].my_none? { |el| el > 20 }).to be(true)
+    end
+
+    it 'returns true if none of the elements is lesser than 3 chracters ' do
+      expect(%w[sleeping beauty].my_none? { |el| el.length < 3 }).to be(true)
+    end
+
+    it 'returns true if none of words is greater than 3 chracters ' do
+      expect(%w[ a is b to c].my_none? { |el| el.length > 3 }).to be(true)
+    end
+
+    it 'returns false if any word less than 3 chracters ' do
+      expect(%w[I am a boy].my_none?(String)).to be(false)
+    end
+    it 'returns false if none of the words is a STRING ' do
+      expect([1, :a, nil].my_none?(String)).to be(true)
+    end
+
+    it 'retrns true if none of the hash values is an odd number' do
+      expect({ a: 2, b: 4, c: 6 }.my_none? { |_k, v| v.odd? }).to eq(true)
+    end
+    it 'retrns false if any of the hash values is an even number' do
+      expect({ a: 2, b: 3, c: 4, d: 5 }.my_none? { |_k, v| v.even? }).to eq(false)
+    end
+    it 'returns true if none of the words has the "e" character ' do
+      expect(%w[I am a boy].my_none?(/e/)).to_not be(false)
+    end
+    it 'returns false if any of the words has the "a" characte ' do
+      expect(%w[I am a boy].my_none?(/a/)).to_not be(true)
+    end
+  end
+
   describe '#my_count' do
     it 'counts the even numbers in a given array' do
       expect([1, 2, 3, 4, 5].my_count(&:even?)).to be(2)
