@@ -45,4 +45,38 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_all?' do
+    it 'Returns true if self is empty' do
+      expect([].my_all?).to eql(true)
+    end
+
+    it 'Returns false if self is not empty' do
+      expect([nil].my_all?).to eql(false)
+    end
+
+    it 'returns true if all of numbers is less than 10 in the given array' do
+      expect([1, 5, 7].my_all? { |el| el < 10 }).to be(true)
+    end
+
+    it 'returns false if all of numbers is not greater than 20 in the given array' do
+      expect([26, 25, 14].my_all? { |el| el > 20 }).to_not eql(true)
+    end
+
+    it 'returns false if none of the words has the "a" character ' do
+      expect(%w[I am a software developer].my_all?(/a/)).to_not eql(true)
+    end
+
+    it 'returns true if all of the words has the b characte ' do
+      expect(%w[professional software developer].my_all?(/e/)).to eql(true)
+    end
+
+    it 'retrns false if none of the hash values is an odd number' do
+      expect({ a: 10, b: 4, c: 8}.my_all? { |_k, v| v.odd? }).to eq(false)
+    end
+
+    it 'retrns true if all of the hash values is an odd number' do
+      expect({ a: 3, b: 5, c: 7 }.my_all? { |_k, v| v.odd? }).to eq(true)
+    end
+  end
 end
