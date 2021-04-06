@@ -123,6 +123,38 @@ describe Enumerable do
     end
   end
 
+  describe '#my_count' do
+    it 'counts the even numbers in a given array' do
+      expect([1, 2, 3, 4, 5].my_count(&:even?)).to be(2)
+    end
+
+    it 'counts the words in a string that is longer than 4 characters ' do
+      expect(%w[Twice as tall is a grammy album].my_count { |el| el.length > 4 }).to be(3)
+    end
+
+    it 'counts the number of hash values that are odd number' do
+      expect({ a: 1, b: 2, c: 3, d: 4 }.my_count { |_k, v| v.odd? }).to eq(2)
+    end
+
+    it 'counts the number of words has the "e" character ' do
+      expect(%w[short and tall is a grammy album].my_count(/e/)).to be(0)
+    end
+
+    it 'counts the number of times the number two appears in the array ' do
+      expect([1, 2, 2, 4, 3, 3].my_count(2)).to be(2)
+    end
+
+    it 'counts the number of the words in a given array ' do
+      expect(%w[Twice as tall is a grammy album].my_count { |word| word.count(word) }).to be(7)
+    end
+
+    it 'counts the number of the elements in the array ' do
+      expect([1, 2, 3].my_count).to be(3)
+    end
+  end
+
+ 
+
   describe '#my_inject' do
     it 'Returns local jump error if no block given' do
       expect { (1..4).my_inject }.to raise_error(LocalJumpError)
