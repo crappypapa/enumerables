@@ -123,6 +123,38 @@ describe Enumerable do
     end
   end
 
+  describe '#my_inject' do
+    it 'Returns local jump error if no block given' do
+      expect { (1..4).my_inject }.to raise_error(LocalJumpError)
+    end
+
+    it 'Returns value of applying an operation to all numbers within range' do
+      expect((1..4).my_inject(:+)).to eql(10)
+    end
+
+    it 'Returns multiple of array' do
+      expect([1, 2, 3].my_inject(:*)).to eql(6)
+    end
+    it 'Returns integer after subtracting each element in array from previous element' do
+      expect([1, 2, 3].my_inject(:-)).to eql(-4)
+    end
+    it 'Returns integer after dividing each element in array by next element' do
+      expect([12, 3, 2].my_inject(:/)).to eql(2)
+    end
+
+    it 'Returns sum of numbers in a range' do
+      expect((4..9).my_inject { |sum, n| sum + n }).to eql(39)
+    end
+
+    it 'Returns product of numbers in a range' do
+      expect((5..10).my_inject(1) { |product, n| product * n }).to eql(151200)
+    end
+
+    it 'Returns the longest word in a given block' do
+      expect(%w[olaoluwa is tired].my_inject { |a, word| a.length > word.length ? a : word }).to eql('olaoluwa')
+    end
+  end
+
   describe '#multiply_else' do
     it 'Returns result from multiply_els method' do
       expect(multiply_els(1..4)).to eq(24)
