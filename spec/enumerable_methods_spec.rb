@@ -79,4 +79,48 @@ describe Enumerable do
       expect({ a: 3, b: 5, c: 7 }.my_all? { |_k, v| v.odd? }).to eq(true)
     end
   end
+
+  describe '#my_any?' do
+    it 'Returns false if self is empty' do
+      expect([].my_any?).to_not be(true)
+    end
+
+    it 'Returns true if self is not empty' do
+      expect([1,'a'].my_any?).to be(true)
+    end
+
+    it 'returns true if any number is greater than five in the given array' do
+      expect([2, 6, 4].my_any? { |el| el > 3 }).to be(true)
+    end
+    it 'returns false if any number is less than three in the given array' do
+      expect([4, 5, 6].my_any? { |el| el < 3 }).to be(false)
+    end
+    it 'returns true if length of any word is greater than 3 ' do
+      expect(%w[I love software development].my_any? { |el| el.length > 3 }).to be(true)
+    end
+    it 'returns false if there is no length of any word lesser than 3 chracters ' do
+      expect(%w[software development cannot get more exciting].my_any? { |el| el.length < 3 }).to be(false)
+    end
+
+    it 'returns false if any word given is of Class STRING ' do
+      expect(["felix", 1].my_any?(String)).to be(true)
+    end
+    it 'returns false if there is no STRING in array given ' do
+      expect([1, :shaher, nil].my_any?(String)).to be(false)
+    end
+
+    it 'retrns true if any of the hash values is an odd number' do
+      expect({ a: 2, b: 3, c: 4 }.my_any? { |keys, value| value.odd? }).to eq(true)
+    end
+    it 'retrns false if none of the hash values is greater than 5' do
+      expect({ a: 2, b: 3, c: 4 }.my_any? { |keys, value| value > 5 }).to eq(false)
+    end
+    it 'returns true if the "!" character exists in the string ' do
+      expect(%w[I enjoy coding!].my_any?(/!/)).to be(true)
+    end
+    it 'returns false if the b character does not exist in the string ' do
+      expect(%w[I enjoy coding!].my_any?(/b/)).to be(false)
+    end
+  end
+
 end
