@@ -153,7 +153,32 @@ describe Enumerable do
     end
   end
 
- 
+  describe '#my_map' do
+    it 'Returns Enumerable if the given array is empty' do
+      expect([].my_map).to be_a(Enumerable)
+    end
+
+    it 'returns a new array with all elements in upper case' do
+      expect(%w[olaoluwa soladoye].my_map(&:upcase)).to eql(%w[OLAOLUWA SOLADOYE])
+    end
+
+    it 'returns a new array with the number multiplied by 2' do
+      expect([3, 5, 7].my_map { |n| n * 2 }).to eql([6, 10, 14])
+    end
+
+    it 'returens the hash values conveted into symbols' do
+      expect({ bacon: 'protein', apple: 'fruit' }.my_map { |k, v| [k, v.to_sym] }.to_h).to eql({ bacon: :protein, apple: :fruit })
+    end
+
+    it 'returns the class of each element in the given array' do
+      expect([10, 'sweet', :a].my_map(&:class)).to eql([Integer, String, Symbol])
+    end
+
+    it 'returns a new array with all elements converted to integrs' do
+      expect(%w[1 2 3 4 5].my_map(&:to_i)).to eql([1, 2, 3, 4, 5])
+    end
+    
+  end
 
   describe '#my_inject' do
     it 'Returns local jump error if no block given' do
