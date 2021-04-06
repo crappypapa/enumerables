@@ -123,4 +123,9 @@ describe Enumerable do
     end
   end
 
+  describe '#multiply_else' do
+    it 'Returns result from multiply_els method' do
+      expect(multiply_els(1..4)).to eq(24)
+    end
+  end
 end
