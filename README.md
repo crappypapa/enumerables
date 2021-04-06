@@ -103,21 +103,23 @@ To get a local copy up and running follow these simple example steps.
 
 ```p (5..10).my_inject{ |add, n| add + n } #=> 45```
 
+## Run Rspec tests
+
+1) Clone the repo by running git clone https://github.com/crappypapa/enumerables.git Or download the zip folder
 
 
+
+2) Make sure you have rspec installed, or you can install by running ```gem install rspec```
+
+3) ```cd``` into the '../enumerables' folder
+
+4) run ```rspec``` in the terminal
 ## Authors
 
 👤 **Olaoluwa Soladoye**
 
 - GitHub: [@crappypapa](https://github.com/crappypapa)
 - Twitter: [@_laoluwa](https://twitter.com/_laoluwa)
-
-
-👤 **Zil Norvilis**
-
-- GitHub: [@zilton7](https://github.com/zilton7)
-- Twitter: [@devnor7](https://twitter.com/devnor7)
-- LinkedIn: [zil-norvilis](https://www.linkedin.com/in/zil-norvilis)
 
 ## 🤝 Contributing
 
