@@ -3,26 +3,26 @@ require_relative '../enumerable_methods'
 describe Enumerable do
   describe '#my_each' do
     it 'Returns an enumerable when no block is given' do
-      expect([1,2,3].my_each).to be_a(Enumerable)
+      expect([1, 2, 3].my_each).to be_a(Enumerable)
     end
     context 'when block is given' do
       it 'Returns the range of numbers passed when range is given' do
-        expect((1..3).my_each {|a| a}).to eql(1..3)
+        expect((1..3).my_each { |a| a }).to eql(1..3)
       end
 
       it 'Returns the key-value pair of an Hash passed into it ' do
-        expect({x: 1, y: 2}.my_each {|a| a}).to eql({:x =>1, :y=> 2})
+        expect({ x: 1, y: 2 }.my_each { |a| a }).to eql({ x: 1, y: 2 })
       end
 
       it 'Returns the exact array passed into it' do
-        expect([1, 2, "a", "b"].my_each {|a| a}).to eql([1, 2, "a", "b"])
+        expect([1, 2, 'a', 'b'].my_each { |a| a }).to eql([1, 2, 'a', 'b'])
       end
     end
   end
 
   describe '#my_each_with_index' do
     it 'Returns an enumerable when no block is given' do
-      expect([1,2,3].my_each_with_index).to be_a(Enumerable)
+      expect([1, 2, 3].my_each_with_index).to be_a(Enumerable)
     end
   end
 
@@ -37,7 +37,7 @@ describe Enumerable do
       end
 
       it 'selects and return the even numbers from an array of numbers' do
-        expect((1..10).my_select(&:even?)).to eq([2, 4, 6,8,10])
+        expect((1..10).my_select(&:even?)).to eq([2, 4, 6, 8, 10])
       end
 
       it 'selects strings with length greater or equal to 3 than ' do
@@ -72,7 +72,7 @@ describe Enumerable do
     end
 
     it 'retrns false if none of the hash values is an odd number' do
-      expect({ a: 10, b: 4, c: 8}.my_all? { |_k, v| v.odd? }).to eq(false)
+      expect({ a: 10, b: 4, c: 8 }.my_all? { |_k, v| v.odd? }).to eq(false)
     end
 
     it 'retrns true if all of the hash values is an odd number' do
@@ -86,7 +86,7 @@ describe Enumerable do
     end
 
     it 'Returns true if self is not empty' do
-      expect([1,'a'].my_any?).to be(true)
+      expect([1, 'a'].my_any?).to be(true)
     end
 
     it 'returns true if any number is greater than five in the given array' do
@@ -103,17 +103,17 @@ describe Enumerable do
     end
 
     it 'returns false if any word given is of Class STRING ' do
-      expect(["felix", 1].my_any?(String)).to be(true)
+      expect(['felix', 1].my_any?(String)).to be(true)
     end
     it 'returns false if there is no STRING in array given ' do
       expect([1, :shaher, nil].my_any?(String)).to be(false)
     end
 
     it 'retrns true if any of the hash values is an odd number' do
-      expect({ a: 2, b: 3, c: 4 }.my_any? { |keys, value| value.odd? }).to eq(true)
+      expect({ a: 2, b: 3, c: 4 }.my_any? { |_keys, value| value.odd? }).to eq(true)
     end
     it 'retrns false if none of the hash values is greater than 5' do
-      expect({ a: 2, b: 3, c: 4 }.my_any? { |keys, value| value > 5 }).to eq(false)
+      expect({ a: 2, b: 3, c: 4 }.my_any? { |_keys, value| value > 5 }).to eq(false)
     end
     it 'returns true if the "!" character exists in the string ' do
       expect(%w[I enjoy coding!].my_any?(/!/)).to be(true)
@@ -145,7 +145,7 @@ describe Enumerable do
     end
 
     it 'returns true if none of words is greater than 3 chracters ' do
-      expect(%w[ a is b to c].my_none? { |el| el.length > 3 }).to be(true)
+      expect(%w[a is b to c].my_none? { |el| el.length > 3 }).to be(true)
     end
 
     it 'returns false if any word less than 3 chracters ' do
@@ -213,7 +213,9 @@ describe Enumerable do
     end
 
     it 'returens the hash values conveted into symbols' do
-      expect({ bacon: 'protein', apple: 'fruit' }.my_map { |k, v| [k, v.to_sym] }.to_h).to eql({ bacon: :protein, apple: :fruit })
+      expect({ bacon: 'protein', apple: 'fruit' }.my_map do |k, v|
+               [k, v.to_sym]
+             end.to_h).to eql({ bacon: :protein, apple: :fruit })
     end
 
     it 'returns the class of each element in the given array' do
@@ -223,7 +225,6 @@ describe Enumerable do
     it 'returns a new array with all elements converted to integrs' do
       expect(%w[1 2 3 4 5].my_map(&:to_i)).to eql([1, 2, 3, 4, 5])
     end
-    
   end
 
   describe '#my_inject' do
@@ -250,7 +251,7 @@ describe Enumerable do
     end
 
     it 'Returns product of numbers in a range' do
-      expect((5..10).my_inject(1) { |product, n| product * n }).to eql(151200)
+      expect((5..10).my_inject(1) { |product, n| product * n }).to eql(151_200)
     end
 
     it 'Returns the longest word in a given block' do
