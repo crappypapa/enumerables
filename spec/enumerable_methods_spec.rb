@@ -19,4 +19,30 @@ describe Enumerable do
       end
     end
   end
+
+  describe '#my_each_with_index' do
+    it 'Returns an enumerable when no block is given' do
+      expect([1,2,3].my_each_with_index).to be_a(Enumerable)
+    end
+  end
+
+  describe '#my_select' do
+    it 'Returns an enumerable when no block given' do
+      expect((1..3).my_select).to be_a(Enumerable)
+    end
+
+    context 'When block is given' do
+      it 'Returns an array of the given range passed' do
+        expect((1..3).my_select { |el| el }).to eq([1, 2, 3])
+      end
+
+      it 'selects and return the even numbers from an array of numbers' do
+        expect((1..10).my_select(&:even?)).to eq([2, 4, 6,8,10])
+      end
+
+      it 'selects strings with length greater or equal to 3 than ' do
+        expect(%w[I am twice as tall as Olaoluwa].my_select { |el| el.length >= 3 }).to eq(%w[twice tall Olaoluwa])
+      end
+    end
+  end
 end
